@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">              
+<head>
+  <meta charset="utf-8" />
+  <title>Malaysia Birth Rate per 1,000 (2023) </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+</head>
+<body>
+  <h1> Live Birth Rate per 1,000 People — Malaysia (2023) </h1>
+
+
+  <div id="vis"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vega@5.22.1"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.2.0"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.20.8"></script>
+
+  <script>
+  const spec = {
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "title": "Choropleth Map of birth rates per 1,000 people by Malaysia state (2023).",
+    "width": 800,
+    "height": 400,
+    "projection": {
+      "type": "mercator",
+      "center": [110, 3.8],
+      "scale": 2000
+    },
+    "layer": [
+      /* graticule */
+      {
+        "data": {"graticule": {"step": [30, 30]}},
+        "mark": {"type": "geoshape", "stroke": "#cbd5e1", "strokeWidth": 1.8}
+      },
+      /* states with lookup */
+      {
+        "data": {
+          "url": "js/ne_10m_admin_1_states_provinces.topojson",
+          "format": { "type": "topojson", "feature": "ne_10m_admin_1_states_provinces" }
+        },
+        "transform": [
+        { "lookup": "properties.state",
+          "from": { "data": { "url":"data/births_2023.csv" },
+                    "key": "state",
+                    "fields": ["birth_rate_per_1000"] } }
+      ],
+        "mark": {"type": "geoshape"},
+        "encoding": {
+          "color": {
+            "field": "birth_rate_per_1000",
+            "type": "quantitative",
+            "title": "Births per 1,000 (2023)",
+            "scale": {"scheme": "Greens"}
+          },
+          "tooltip": [
+            {"field": "properties.state", "type": "nominal", "title": "State"},
+            {"field": "birth_rate_per_1000", "type": "quantitative", "format": ".2f", "title": "Birth rate"}
+          ]
+        }
+      },
+      /* stroke outline to sharpen borders */
+      {
+        "data": {
+          "url": "js/ne_10m_admin_1_states_provinces.topojson",
+          "format": { "type": "topojson", "feature": "ne_10m_admin_1_states_provinces" }
+        },
+        "mark": {"type": "geoshape", "fill": null, "stroke": "#334155", "strokeWidth": 0.8}
+      }
+    ],
+    "config": {}
+  };
+
+  vegaEmbed("#vis", spec, {mode: "vega-lite"}).then(console.log).catch(console.warn);
+  </script>
+</body>
+</html>
