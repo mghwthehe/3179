@@ -35,12 +35,12 @@
       /* states with lookup */
       {
         "data": {
-          "url": "js/ne_10m_admin_1_states_provinces.topojson",
+          "url": "ne_10m_admin_1_states_provinces.topojson",
           "format": { "type": "topojson", "feature": "ne_10m_admin_1_states_provinces" }
         },
         "transform": [
         { "lookup": "properties.state",
-          "from": { "data": { "url":"data/births_2023.csv" },
+          "from": { "data": { "url":"births_2023.csv" },
                     "key": "state",
                     "fields": ["birth_rate_per_1000"] } }
       ],
@@ -61,7 +61,7 @@
       /* stroke outline to sharpen borders */
       {
         "data": {
-          "url": "js/ne_10m_admin_1_states_provinces.topojson",
+          "url": "ne_10m_admin_1_states_provinces.topojson",
           "format": { "type": "topojson", "feature": "ne_10m_admin_1_states_provinces" }
         },
         "mark": {"type": "geoshape", "fill": null, "stroke": "#334155", "strokeWidth": 0.8}
